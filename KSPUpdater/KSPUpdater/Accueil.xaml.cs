@@ -31,7 +31,7 @@ namespace KSPUpdater
 
         private void Update_OnClick(object sender, RoutedEventArgs e)
         {
-            _vm.Update();
+            UpdaterOrchestraMaster.LaunchUpdate();
         }
     }
 }

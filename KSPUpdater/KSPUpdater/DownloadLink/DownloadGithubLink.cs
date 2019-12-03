@@ -12,11 +12,6 @@ namespace KSPUpdater.DownloadLink
 
         #region Protected Methods
 
-        protected override void DownloadZip()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void ParseUrl()
         {
             if(UrlBase == null)

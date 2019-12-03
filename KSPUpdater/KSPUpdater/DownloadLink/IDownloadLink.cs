@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace KSPUpdater.DownloadLink
@@ -21,14 +25,17 @@ namespace KSPUpdater.DownloadLink
             LatestVersionPageHtmlDocument = Utils.DownloadHtmlDocument(UrlLatestVersionPage);
         }
 
-        protected abstract void DownloadZip();
 
-        public void AutomaticDownloadZip()
+
+        public string GetZipLink()
         {
             this.ParseUrl();
             this.DownloadHtml();
             this.ParseHtml();
-            this.DownloadZip();
+
+            return ZipLink;
+
+            
         }
     }
 }
