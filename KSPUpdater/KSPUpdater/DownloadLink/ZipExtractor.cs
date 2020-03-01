@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using KSPUpdater.Extensions;
 
 namespace KSPUpdater.DownloadLink
 {
@@ -33,7 +34,7 @@ namespace KSPUpdater.DownloadLink
         {
             try
             {
-                Directory.Delete(this.TmpDirectory, true);
+                Directory.Delete(this.UnzippedDirectory, true);
             }
             catch (DirectoryNotFoundException e)
             {

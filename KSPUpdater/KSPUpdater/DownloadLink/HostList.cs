@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KSPUpdater.DownloadLink
+﻿namespace KSPUpdater.DownloadLink
 {
     enum HostList
     {
         Github,
+        Curseforge,
         Unknow
     }
 }

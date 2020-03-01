@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -47,22 +48,17 @@ namespace KSPUpdater
 
         private bool IsDowloadedModMoreRecent(string oldModPath, string unzippedModPath)
         {
-
-            var test = Directory.GetFiles(unzippedModPath);
-            var test2 = Directory.GetFiles(unzippedModPath, "*.version");
-
             DotVersion oldModVersion = new DotVersion(Directory.GetFiles(oldModPath, "*.version", SearchOption.AllDirectories).First());
             DotVersion unzippedModVersion = new DotVersion(Directory.GetFiles(unzippedModPath, "*.version", SearchOption.AllDirectories).First());
-
-            oldModVersion.LoadContent();
-            unzippedModVersion.LoadContent();
 
             return unzippedModVersion > oldModVersion;
         }
 
 
-        public void AutomaticPush()
+        /// <returns>The list of updated Mods</returns>
+        public List<string> AutomaticPush()
         {
+            var listOfUpdatedMod = new List<string>();
             ParseUnzippedModPath();
             GetModsNames();
 
@@ -76,13 +72,16 @@ namespace KSPUpdater
                     var updater = new UpdateMod(gameDataPathMod, unzippedModGameDataPath);
 
                     updater.Execute();
-                    Console.WriteLine(modName + " updated");
+                    listOfUpdatedMod.Add(modName);
+                    Trace.WriteLine(modName + " updated");
                 }
                 else
                 {
-                    Console.WriteLine(modName + " is already up to date");
+                    Trace.WriteLine(modName + " is already up to date");
                 }
             }
+
+            return listOfUpdatedMod;
         }
     }
 }

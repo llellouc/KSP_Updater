@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,26 +11,37 @@ namespace KSPUpdater
     public class DotVersion : IComparable
     {
         public string Path { get; private set; }
+        public string DownloadLink { get; private set; }
         public Version Version { get; private set; }
         public JObject Json { get; private set; }
 
-        public DotVersion(string path)
+        private string GetPath(string path)
         {
-            this.Path = path;
-            this.Version = null;
-            Json = null;
+            if (path.EndsWith(".version"))
+                return path;
+            //else
+            var toRet = Directory.GetFiles(path, "*.version", SearchOption.AllDirectories).FirstOrDefault();
+
+            if (toRet == null) 
+                throw new ArgumentException("Impossible to find any .version file inside the following directory : " + path, nameof(path));
+            return toRet;
         }
 
-        public void LoadContent()
+        public DotVersion(string path)
         {
+            this.Path = GetPath(path);
+            this.Version = null;
+            Json = null;
+
             this.Json = JObject.Parse(File.ReadAllText(Path));
 
-            var major = JsonConvert.DeserializeObject<int>((string) Json["VERSION"]["MAJOR"]);
-            var minor = JsonConvert.DeserializeObject<int>((string)Json["VERSION"]["MINOR"]);
-            var patch = JsonConvert.DeserializeObject<int>((string)Json["VERSION"]["PATCH"]);
-            var build = JsonConvert.DeserializeObject<int>((string)Json["VERSION"]["BUILD"]);
-
+            var major = Int32.Parse((string)Json["VERSION"]["MAJOR"]);
+            var minor = Int32.Parse((string)Json["VERSION"]["MINOR"]);
+            var patch = Int32.Parse((string)Json["VERSION"]["PATCH"]);
+            var build = Int32.Parse((string)Json["VERSION"]["BUILD"]);
             this.Version = new Version(major, minor, patch, build);
+
+            this.DownloadLink = (string)Json["DOWNLOAD"];
         }
 
         public static bool operator <(DotVersion a, DotVersion b)

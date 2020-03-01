@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
@@ -9,44 +7,46 @@ namespace KSPUpdater.DownloadLink
 {
     class DownloadGithubLink : IDownloadLink
     {
-
         #region Protected Methods
 
-        protected override void ParseUrl()
+        protected override void GetZipURL()
         {
-            if(UrlBase == null)
-                throw new SystemException("URLBase not set in DownloadGithubLink class");
-
-            if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[\\w]+/[\\w]+/releases/latest/?$"))
-                UrlLatestVersionPage = UrlBase;
-            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[\\w]+/[\\w]+/releases/$"))
-                UrlLatestVersionPage = UrlBase + "latest";
-            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[\\w]+/[\\w]+/releases$"))
-                UrlLatestVersionPage = UrlBase + "/latest";
-            else
-                throw new ArgumentException("Impossible to parse Github URL", nameof(UrlBase));
-        }
-
-        protected override void ParseHtml()
-        {
-            var href = this.LatestVersionPageHtmlDocument.DocumentNode.DescendantsAndSelf("a").SingleOrDefault(x =>
-                Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[\\w]+/[\\w]+/releases/download/[0-9\\.]+/[\\S]+\\.zip$"))?.GetAttributeValue("href", "");
-
-            this.ZipLink = "https://github.com" + href;
-
+            var lastRealeaseURL = GetLastRealeaseURL();
+            var lastReleaseHTMLDocument = Utils.DownloadHtmlDocument(lastRealeaseURL);
+            this.ZipLink = GetZipLink(lastReleaseHTMLDocument);
         }
 
         #endregion Protected Methods
 
+        #region Private Methods
+        private string GetLastRealeaseURL()
+        {
+            if (UrlBase == null)
+                throw new ArgumentNullException(nameof(UrlBase), "URLBase not set in DownloadGithubLink class");
 
+            if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases/latest/?$"))
+                return UrlBase;
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases/$"))
+                return UrlBase + "latest";
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases$"))
+                return UrlBase + "/latest";
+            else
+                throw new ArgumentException("Impossible to parse Github URL", nameof(UrlBase));
+        }
+
+        private string GetZipLink(HtmlDocument doc)
+        {
+            var href = doc.DocumentNode.DescendantsAndSelf("a").SingleOrDefault(x =>
+                Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[\\w]+/[\\w]+/releases/download/[0-9\\.]+/[\\S]+\\.zip$"))?.GetAttributeValue("href", "");
+
+            return "https://github.com" + href;
+
+        }
+        #endregion
 
         #region Constructor
-        public DownloadGithubLink(string urlBase)
+        public DownloadGithubLink(string urlBase) : base(urlBase)
         {
-            UrlBase = urlBase;
-            UrlLatestVersionPage = null;
-            LatestVersionPageHtmlDocument = null;
-            ZipLink = null;
         }
         #endregion Constructor
 

@@ -6,36 +6,32 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using KSPUpdater.Extensions;
 
 namespace KSPUpdater.DownloadLink
 {
     abstract class IDownloadLink
     {
+        protected MyWebView _wb;
+
+        /// <summary>
+        /// URL in the .version file
+        /// </summary>
         public string UrlBase { get; protected set; }
-        public string UrlLatestVersionPage { get; protected set; }
-        public HtmlDocument LatestVersionPageHtmlDocument { get; protected set; }
+        /// <summary>
+        /// URL of the zip. Just need to use WebClient.DownloadFile() to have the Zip
+        /// </summary>
         public string ZipLink { get; protected set; }
 
-        protected abstract void ParseUrl();
+        protected abstract void GetZipURL();
 
-        protected abstract void ParseHtml();
-
-        protected void DownloadHtml()
+        public IDownloadLink(string urlBase, MyWebView wb = null)
         {
-            LatestVersionPageHtmlDocument = Utils.DownloadHtmlDocument(UrlLatestVersionPage);
-        }
+            UrlBase = urlBase;
+            _wb = wb;
+            ZipLink = null;
 
-
-
-        public string GetZipLink()
-        {
-            this.ParseUrl();
-            this.DownloadHtml();
-            this.ParseHtml();
-
-            return ZipLink;
-
-            
+            GetZipURL();
         }
     }
 }
