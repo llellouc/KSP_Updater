@@ -36,6 +36,8 @@ namespace KSPUpdater.DownloadLink
                 return new DownloadGithubLink(urlBase);
             else if (urlBase.Contains("curseforge.com"))
                 return new DownloadCurseforgeLink(urlBase, wb);
+            else if (urlBase.Contains("spacedock.info"))
+                return new DownloadSpaceDock(urlBase);
             else
                 throw new NotImplementedException("The link " + urlBase + "comes from an unknown host");
         }

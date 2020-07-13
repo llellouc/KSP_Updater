@@ -25,8 +25,7 @@ namespace KSPUpdater
 
             //var modPathList = GetModPathList(GameDataPath);
             var modPathList = new List<string>();
-            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\000_ClickThroughBlocker");
-            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\EasyVesselSwitch");
+            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\FuelTanksPlus");
 
             //Todo : Parallel.ForEach()
             foreach (var modpath in modPathList)

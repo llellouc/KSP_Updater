@@ -10,7 +10,7 @@ using KSPUpdater.Extensions;
 
 namespace KSPUpdater.DownloadLink
 {
-    abstract class IDownloadLink
+    public abstract class IDownloadLink
     {
         protected MyWebView _wb;
 

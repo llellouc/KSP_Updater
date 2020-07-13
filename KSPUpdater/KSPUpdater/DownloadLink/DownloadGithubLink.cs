@@ -5,7 +5,7 @@ using HtmlAgilityPack;
 
 namespace KSPUpdater.DownloadLink
 {
-    class DownloadGithubLink : IDownloadLink
+    public class DownloadGithubLink : IDownloadLink
     {
         #region Protected Methods
 
