@@ -25,7 +25,7 @@ namespace KSPUpdater
 
             //var modPathList = GetModPathList(GameDataPath);
             var modPathList = new List<string>();
-            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\FuelTanksPlus");
+            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\AirplanePlus");
 
             //Todo : Parallel.ForEach()
             foreach (var modpath in modPathList)

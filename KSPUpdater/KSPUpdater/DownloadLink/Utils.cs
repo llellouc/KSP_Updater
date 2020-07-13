@@ -38,6 +38,8 @@ namespace KSPUpdater.DownloadLink
                 return new DownloadCurseforgeLink(urlBase, wb);
             else if (urlBase.Contains("spacedock.info"))
                 return new DownloadSpaceDock(urlBase);
+            else if (urlBase.Contains("forum.kerbalspaceprogram.com"))
+                return new DownloadForumKsp(urlBase, wb);
             else
                 throw new NotImplementedException("The link " + urlBase + "comes from an unknown host");
         }

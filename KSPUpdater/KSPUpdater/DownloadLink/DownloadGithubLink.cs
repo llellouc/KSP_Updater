@@ -30,6 +30,10 @@ namespace KSPUpdater.DownloadLink
                 return UrlBase + "latest";
             else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases$"))
                 return UrlBase + "/latest";
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/$"))
+                return UrlBase + "releases/latest";
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+$"))
+                return UrlBase + "/releases/latest";
             else
                 throw new ArgumentException("Impossible to parse Github URL", nameof(UrlBase));
         }
@@ -39,7 +43,10 @@ namespace KSPUpdater.DownloadLink
             var href = doc.DocumentNode.DescendantsAndSelf("a").SingleOrDefault(x =>
                 Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[\\w]+/[\\w]+/releases/download/[0-9\\.]+/[\\S]+\\.zip$"))?.GetAttributeValue("href", "");
 
-            return "https://github.com" + href;
+            if(!string.IsNullOrEmpty(href))
+                return "https://github.com" + href;
+            //else
+            return null;
 
         }
         #endregion
