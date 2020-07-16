@@ -2,11 +2,15 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common.Interfaces;
 
-namespace KSPUpdater.DownloadLink
+namespace KSPUpdater.Drivers.Github
 {
     public class DownloadGithubLink : IDownloadLink
     {
+        public override string UrlPattern => "github.com";
+
         #region Protected Methods
 
         protected override void GetZipURL()
@@ -52,7 +56,11 @@ namespace KSPUpdater.DownloadLink
         #endregion
 
         #region Constructor
-        public DownloadGithubLink(string urlBase) : base(urlBase)
+        public DownloadGithubLink(string urlBase, MyWebView wb = null) : base(urlBase)
+        {
+        }
+
+        public DownloadGithubLink() : base()
         {
         }
         #endregion Constructor

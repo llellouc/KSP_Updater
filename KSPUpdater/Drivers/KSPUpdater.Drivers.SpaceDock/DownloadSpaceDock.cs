@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using KSPUpdater.Extensions;
+﻿using System.Linq;
+using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common.Interfaces;
 
-namespace KSPUpdater.DownloadLink
+namespace KSPUpdater.Drivers.SpaceDock
 {
     public class DownloadSpaceDock : IDownloadLink
     {
+        public override string UrlPattern => "spacedock.info";
+
         public DownloadSpaceDock(string urlBase, MyWebView wb = null) : base(urlBase, wb)
+        {
+        }
+
+        public DownloadSpaceDock() : base()
         {
         }
 

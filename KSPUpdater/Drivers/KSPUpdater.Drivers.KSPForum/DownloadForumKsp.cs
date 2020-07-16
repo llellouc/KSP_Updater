@@ -1,15 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using KSPUpdater.Extensions;
+using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common;
+using KSPUpdater.Drivers.Common.Interfaces;
 
-namespace KSPUpdater.DownloadLink
+namespace KSPUpdater.Drivers.KSPForum
 {
     public class DownloadForumKsp : IDownloadLink
     {
+        public override string UrlPattern => "forum.kerbalspaceprogram.com";
+
         public IDownloadLink SubDownloadLink { get; set; }
         public DownloadForumKsp(string urlBase, MyWebView wb = null) : base(urlBase, wb)
+        {
+        }
+
+        public DownloadForumKsp() : base()
         {
         }
 
@@ -25,7 +31,7 @@ namespace KSPUpdater.DownloadLink
             var githubLink = aTags?.Where(x => x.GetAttributeValue("href", "").Contains("github.com")).ToList();
             if (githubLink?.Count == 1)
             {
-                SubDownloadLink = new DownloadGithubLink(githubLink[0].GetAttributeValue("href", ""));
+                SubDownloadLink = DownloadLinkHelper.GetHostType(githubLink[0].GetAttributeValue("href", ""), _wb);
                 this.ZipLink = SubDownloadLink.ZipLink;
                 if(string.IsNullOrEmpty(ZipLink) == false)
                     return;
@@ -34,7 +40,7 @@ namespace KSPUpdater.DownloadLink
             var spaceDockLink = aTags?.Where(x => x.GetAttributeValue("href", "").Contains("spacedock.info")).ToList();
             if (spaceDockLink?.Count == 1)
             {
-                SubDownloadLink = new DownloadSpaceDock(spaceDockLink[0].GetAttributeValue("href", ""));
+                SubDownloadLink = DownloadLinkHelper.GetHostType(spaceDockLink[0].GetAttributeValue("href", ""), _wb);
                 this.ZipLink = SubDownloadLink.ZipLink;
                 if (string.IsNullOrEmpty(ZipLink) == false)
                     return;
@@ -43,7 +49,7 @@ namespace KSPUpdater.DownloadLink
             var curseforgeLink = aTags?.Where(x => x.GetAttributeValue("href", "").Contains("curseforge.com")).ToList();
             if (curseforgeLink?.Count == 1)
             {
-                SubDownloadLink = new DownloadCurseforgeLink(curseforgeLink[0].GetAttributeValue("href", ""), _wb);
+                SubDownloadLink = DownloadLinkHelper.GetHostType(curseforgeLink[0].GetAttributeValue("href", ""), _wb);
                 this.ZipLink = SubDownloadLink.ZipLink;
                 if (string.IsNullOrEmpty(ZipLink) == false)
                     return;

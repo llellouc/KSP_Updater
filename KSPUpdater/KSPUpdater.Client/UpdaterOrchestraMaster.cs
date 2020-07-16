@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KSPUpdater.DownloadLink;
-using KSPUpdater.Extensions;
+using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common;
+using KSPUpdater.Drivers.Common.Interfaces;
 
-namespace KSPUpdater
+namespace KSPUpdater.Client
 {
     public static class UpdaterOrchestraMaster
     {
@@ -43,7 +42,7 @@ namespace KSPUpdater
                 if (dotVersionFile == null)
                     continue;
 
-                IDownloadLink hostLink = DownloadLink.Utils.GetHostType(dotVersionFile.DownloadLink, wb);
+                IDownloadLink hostLink = DownloadLinkHelper.GetHostType(dotVersionFile.DownloadLink, wb);
                 if (hostLink.ZipLink != null)
                 {
                     var zipExtractor = new ZipExtractor(hostLink.ZipLink);

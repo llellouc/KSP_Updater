@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using KSPUpdater.Extensions;
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Wpf.UI.Controls;
+using KSPUpdater.Client.ViewModel;
+using KSPUpdater.Common;
 
-namespace KSPUpdater
+namespace KSPUpdater.Client.View
 {
     /// <summary>
     /// Interaction logic for Accueil.xaml
@@ -13,8 +12,6 @@ namespace KSPUpdater
     public partial class Accueil : Window
     {
         private AccueilViewModel _vm;
-
-        private MyWebView myWebView;
 
         public Accueil()
         {

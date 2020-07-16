@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using HtmlAgilityPack;
-using KSPUpdater.Extensions;
+﻿using KSPUpdater.Common;
 
-namespace KSPUpdater.DownloadLink
+namespace KSPUpdater.Drivers.Common.Interfaces
 {
     public abstract class IDownloadLink
     {
@@ -23,6 +15,8 @@ namespace KSPUpdater.DownloadLink
         /// </summary>
         public string ZipLink { get; protected set; }
 
+        public abstract string UrlPattern { get; }
+
         protected abstract void GetZipURL();
 
         public IDownloadLink(string urlBase, MyWebView wb = null)
@@ -33,5 +27,7 @@ namespace KSPUpdater.DownloadLink
 
             GetZipURL();
         }
+
+        public IDownloadLink() { }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using KSPUpdater.Extensions;
+using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common.Interfaces;
 
-namespace KSPUpdater.DownloadLink
+namespace KSPUpdater.Drivers.Curseforge
 {
-    class DownloadCurseforgeLink : IDownloadLink
+    public class DownloadCurseforgeLink : IDownloadLink
     {
+        public override string UrlPattern => "curseforge.com";
+
         protected override void GetZipURL()
         {
             var downloadURL = GetDownloadPageURL();
@@ -43,5 +46,10 @@ namespace KSPUpdater.DownloadLink
         public DownloadCurseforgeLink(string urlBase, MyWebView wb) : base(urlBase, wb)
         {
         }
+
+        public DownloadCurseforgeLink() : base()
+        {
+        }
+
     }
 }

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using KSPUpdater.Extensions;
 
-namespace KSPUpdater.DownloadLink
+namespace KSPUpdater.Drivers.Common
 {
-    class ZipExtractor
+    public class ZipExtractor
     {
         #region Properties
 

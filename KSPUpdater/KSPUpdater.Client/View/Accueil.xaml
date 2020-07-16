@@ -1,4 +1,4 @@
-﻿<Window x:Class="KSPUpdater.Accueil"
+﻿<Window x:Class="KSPUpdater.Client.View.Accueil"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button Grid.Row="0" Content="Selectionner Dossier" Height="50" VerticalAlignment="Top"/>
-        <Button Grid.Row="1" Content="Update" Height="50" VerticalAlignment="Top" Margin="0,10,0,0" Click="Update_OnClick"/>
+        <Button Grid.Row="1" Content="Update" Height="50" VerticalAlignment="Top" Margin="0,10,0,0" Click="Update_OnClick" IsEnabled="{Binding !IsUpdateInProgress}"/>
         <controls:WebView Grid.Row="2" Name="ToolkitWebView" Visibility="Visible"/>
     </Grid>
 </Window>

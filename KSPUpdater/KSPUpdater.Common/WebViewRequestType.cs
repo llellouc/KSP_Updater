@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KSPUpdater
+﻿namespace KSPUpdater.Common
 {
     public enum WebViewRequestType
     {
