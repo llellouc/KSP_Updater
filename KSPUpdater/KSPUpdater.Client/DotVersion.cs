@@ -32,12 +32,17 @@ namespace KSPUpdater.Client
 
             this.Json = JObject.Parse(File.ReadAllText(Path));
 
-            Int32.TryParse((string)Json["VERSION"]["MAJOR"], out int major);
-            Int32.TryParse((string)Json["VERSION"]["MINOR"], out int minor);
-            Int32.TryParse((string)Json["VERSION"]["PATCH"], out int patch);
-            Int32.TryParse((string)Json["VERSION"]["BUILD"], out int build);
-            this.Version = new Version(major, minor, patch, build);
-
+            var test = Json["VERSION"];
+            if (Json["VERSION"].SelectToken("MAJOR") != null)
+            {
+                Int32.TryParse((string)Json["VERSION"]["MAJOR"], out int major);
+                Int32.TryParse((string)Json["VERSION"]["MINOR"], out int minor);
+                Int32.TryParse((string)Json["VERSION"]["PATCH"], out int patch);
+                Int32.TryParse((string)Json["VERSION"]["BUILD"], out int build);
+                this.Version = new Version(major, minor, patch, build);
+            }
+            else
+                this.Version = System.Version.Parse(Json["VERSION"].Value<string>());
             this.DownloadLink = (string)Json["DOWNLOAD"];
         }
 

@@ -8,11 +8,7 @@ namespace KSPUpdater.Drivers.SpaceDock
     {
         public override string UrlPattern => "spacedock.info";
 
-        public DownloadSpaceDock(string urlBase, MyWebView wb = null) : base(urlBase, wb)
-        {
-        }
-
-        public DownloadSpaceDock() : base()
+        public DownloadSpaceDock()
         {
         }
 

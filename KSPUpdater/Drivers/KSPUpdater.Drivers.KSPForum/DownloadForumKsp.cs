@@ -8,16 +8,22 @@ namespace KSPUpdater.Drivers.KSPForum
 {
     public class DownloadForumKsp : IDownloadLink
     {
+        #region Properties
+
         public override string UrlPattern => "forum.kerbalspaceprogram.com";
-
         public IDownloadLink SubDownloadLink { get; set; }
-        public DownloadForumKsp(string urlBase, MyWebView wb = null) : base(urlBase, wb)
+
+        #endregion
+
+        #region Constructor
+
+        public DownloadForumKsp()
         {
+
         }
 
-        public DownloadForumKsp() : base()
-        {
-        }
+        #endregion
+
 
         protected override void GetZipURL()
         {

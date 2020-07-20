@@ -45,7 +45,7 @@ namespace KSPUpdater.Drivers.Github
         private string GetZipLink(HtmlDocument doc)
         {
             var href = doc.DocumentNode.DescendantsAndSelf("a").SingleOrDefault(x =>
-                Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[\\w]+/[\\w]+/releases/download/[0-9\\.]+/[\\S]+\\.zip$"))?.GetAttributeValue("href", "");
+                Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[\\w]+/[\\w]+/releases/download/[\\S]+\\.zip$"))?.GetAttributeValue("href", "");
 
             if(!string.IsNullOrEmpty(href))
                 return "https://github.com" + href;
@@ -56,11 +56,7 @@ namespace KSPUpdater.Drivers.Github
         #endregion
 
         #region Constructor
-        public DownloadGithubLink(string urlBase, MyWebView wb = null) : base(urlBase)
-        {
-        }
-
-        public DownloadGithubLink() : base()
+        public DownloadGithubLink()
         {
         }
         #endregion Constructor

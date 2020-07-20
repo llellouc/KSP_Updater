@@ -43,13 +43,8 @@ namespace KSPUpdater.Drivers.Curseforge
                 throw new ArgumentException("Impossible to parse Curseforge URL", nameof(UrlBase));
         }
 
-        public DownloadCurseforgeLink(string urlBase, MyWebView wb) : base(urlBase, wb)
+        public DownloadCurseforgeLink()
         {
         }
-
-        public DownloadCurseforgeLink() : base()
-        {
-        }
-
     }
 }

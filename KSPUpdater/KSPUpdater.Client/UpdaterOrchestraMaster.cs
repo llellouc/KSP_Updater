@@ -24,7 +24,10 @@ namespace KSPUpdater.Client
 
             //var modPathList = GetModPathList(GameDataPath);
             var modPathList = new List<string>();
-            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\AirplanePlus");
+            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\AirplanePlus");     // Forum KSP URL
+            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\B9PartSwitch");     // Github URL
+            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\EasyVesselSwitch"); // Curseforge URL
+            modPathList.Add("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Kerbal Space Program\\GameData\\FuelTanksPlus");    // Spacedock URL
 
             //Todo : Parallel.ForEach()
             foreach (var modpath in modPathList)
@@ -45,12 +48,14 @@ namespace KSPUpdater.Client
                 IDownloadLink hostLink = DownloadLinkHelper.GetHostType(dotVersionFile.DownloadLink, wb);
                 if (hostLink.ZipLink != null)
                 {
+                    /*
                     var zipExtractor = new ZipExtractor(hostLink.ZipLink);
                     zipExtractor.DownloadAndExtract();
 
                     var updateMod = new PushUpdatedMod(zipExtractor.UnzippedDirectory, GameDataPath);
 
                     updateMod.AutomaticPush();
+                    */
                 }
             }
 

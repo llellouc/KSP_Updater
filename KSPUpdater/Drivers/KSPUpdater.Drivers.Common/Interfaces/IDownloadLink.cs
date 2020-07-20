@@ -19,7 +19,7 @@ namespace KSPUpdater.Drivers.Common.Interfaces
 
         protected abstract void GetZipURL();
 
-        public IDownloadLink(string urlBase, MyWebView wb = null)
+        public void Initialize(string urlBase, MyWebView wb = null)
         {
             UrlBase = urlBase;
             _wb = wb;
@@ -27,7 +27,5 @@ namespace KSPUpdater.Drivers.Common.Interfaces
 
             GetZipURL();
         }
-
-        public IDownloadLink() { }
     }
 }

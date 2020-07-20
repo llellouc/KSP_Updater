@@ -12,6 +12,7 @@ namespace KSPUpdater.Drivers.Common
     {
         private static Lazy<Dictionary<string, Type>> _drivers = new Lazy<Dictionary<string, Type>>(LoadTypes);
 
+        //TODO : Add some try/catch
         private static Dictionary<string, Type> LoadTypes()
         {
             var toRet = new Dictionary<string, Type>();
@@ -36,13 +37,12 @@ namespace KSPUpdater.Drivers.Common
 
         public static IDownloadLink GetHostType(string urlBase, MyWebView wb)
         {
-            object[] instantiationArgs = {urlBase, wb};
-
             foreach (var driver in _drivers.Value)
             {
                 if (urlBase.Contains(driver.Key))
                 {
-                    var obj = Activator.CreateInstance(driver.Value, instantiationArgs);
+                    IDownloadLink obj = (IDownloadLink)Activator.CreateInstance(driver.Value);
+                    obj.Initialize(urlBase, wb);
                     if (obj != null)
                         return (IDownloadLink) obj;
                 }
