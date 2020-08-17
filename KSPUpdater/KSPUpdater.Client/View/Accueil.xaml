@@ -13,8 +13,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Content="Selectionner Dossier" Height="50" VerticalAlignment="Top"/>
-        <Button Grid.Row="1" Content="Update" Height="50" VerticalAlignment="Top" Margin="0,10,0,0" Click="Update_OnClick" IsEnabled="{Binding !IsUpdateInProgress}"/>
+        <Button Grid.Row="0" Content="Selectionner Dossier" Click="SelectFolder_OnClick" Height="50" VerticalAlignment="Top"/>
+        <Button Grid.Row="1" Content="Update" Height="50" VerticalAlignment="Top" Margin="0,10,0,0" Click="Update_OnClick" IsEnabled="{Binding CanClickOnUpdate}"/>
         <controls:WebView Grid.Row="2" Name="ToolkitWebView" Visibility="Hidden" Height="10"/>
     </Grid>
 </Window>

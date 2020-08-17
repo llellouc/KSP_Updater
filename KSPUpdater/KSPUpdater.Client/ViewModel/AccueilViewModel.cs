@@ -7,6 +7,18 @@ namespace KSPUpdater.Client.ViewModel
     class AccueilViewModel : INotifyPropertyChanged
     {
         private bool _isUpdateInProgress;
+        private string _gameDataFolderPath;
+
+        public string GameDataFolderPath
+        {
+            get => _gameDataFolderPath;
+            set
+            {
+                _gameDataFolderPath = value;
+                this.OnPropertyChanged(nameof(CanClickOnUpdate));
+            }
+        }
+
         public bool IsUpdateInProgress
         {
             get => _isUpdateInProgress;
@@ -14,8 +26,15 @@ namespace KSPUpdater.Client.ViewModel
             {
                 _isUpdateInProgress = value;
                 this.OnPropertyChanged(nameof(IsUpdateInProgress));
+                this.OnPropertyChanged(nameof(CanClickOnUpdate));
             }
         }
+
+        public bool CanClickOnUpdate
+        {
+            get => !IsUpdateInProgress && !string.IsNullOrEmpty(GameDataFolderPath);
+        }
+
         public AccueilViewModel()
         {
             IsUpdateInProgress = false;
