@@ -1,4 +1,6 @@
-﻿using System.IO;
+using System.IO;
+using System.Threading.Tasks;
+using KSPUpdater.Common;
 
 namespace KSPUpdater.Client
 {
@@ -13,7 +15,7 @@ namespace KSPUpdater.Client
             this.NewModTemporaryPath = newModTemporaryPath;
         }
 
-        private void DeleteOld()
+        private async Task DeleteOld()
         {
             Directory.Delete(this.OldModPath, true);
         }
@@ -23,9 +25,9 @@ namespace KSPUpdater.Client
             Directory.Move(NewModTemporaryPath, OldModPath);
         }
 
-        public void Execute()
+        public async Task Execute()
         {
-            DeleteOld();
+            await DeleteOld();
             MoveNewModtoDefinitivePath();
         }
     }

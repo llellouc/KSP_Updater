@@ -32,7 +32,7 @@ namespace KSPUpdater.Drivers.Common
             {
                 Directory.Delete(this.UnzippedDirectory, true);
             }
-            catch (DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException)
             {
 
             }
