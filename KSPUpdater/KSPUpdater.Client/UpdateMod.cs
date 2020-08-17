@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using KSPUpdater.Common;
 
@@ -17,7 +17,7 @@ namespace KSPUpdater.Client
 
         private async Task DeleteOld()
         {
-            Directory.Delete(this.OldModPath, true);
+            await DeleteFolderAsync.DeleteAsync(this.OldModPath, true);
         }
 
         private void MoveNewModtoDefinitivePath()
