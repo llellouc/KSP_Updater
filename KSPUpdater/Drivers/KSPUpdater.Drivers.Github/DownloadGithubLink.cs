@@ -30,6 +30,8 @@ namespace KSPUpdater.Drivers.Github
 
             if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases/latest/?$"))
                 return UrlBase;
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases/tag/[^/]+$"))
+                return UrlBase.Split("tag/").First() + "latest";
             else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases/$"))
                 return UrlBase + "latest";
             else if (Regex.IsMatch(UrlBase, "^http(s?)://github.com/[^/]+/[^/]+/releases$"))
