@@ -17,7 +17,7 @@ namespace KSPUpdater.Client
             return Directory.GetDirectories(path).ToList();
         }
 
-        public static async void LaunchUpdate(object paramObj)
+        public static void LaunchUpdate(object paramObj)
         {
             Task.Run(async () =>
             {
@@ -33,32 +33,28 @@ namespace KSPUpdater.Client
                 //Todo : Parallel.ForEach()
                 foreach (var modpath in modPathList)
                 {
-                    DotVersion dotVersionFile = null;
                     try
                     {
-                        dotVersionFile = new DotVersion(modpath);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Trace.WriteLine(e);
-                    }
+                        var modName = new DirectoryInfo(modpath).Name;
+                        var dotVersionFile = new DotVersion(modpath);
 
-                    if (dotVersionFile == null || string.IsNullOrEmpty(dotVersionFile.DownloadLink))
-                    {
-                        Trace.WriteLine("Impossible to read .version of " + modpath);
-                        continue;
-                    }
+                        if (string.IsNullOrEmpty(dotVersionFile.DownloadLink))
+                        {
+                            Trace.WriteLine("No Download link inside " + modName + " mod");
+                            continue;
+                        }
 
-                    IDownloadLink hostLink = DownloadLinkHelper.GetHostType(dotVersionFile.DownloadLink, param.Webview);
-                    var modName = new DirectoryInfo(modpath).Name;
-                    if (hostLink.ZipLink != null)
-                    {
+                        IDownloadLink hostLink = DownloadLinkHelper.GetHostType(dotVersionFile.DownloadLink, param.Webview);
                         var zipExtractor = new ZipExtractor(hostLink.ZipLink);
                         zipExtractor.DownloadAndExtract();
 
                         var updateMod = new PushUpdatedMod(zipExtractor.UnzippedDirectory, param.GameDataPath, modName);
 
                         await updateMod.AutomaticPush();
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine(e.Message);
                     }
                 }
             }).Wait();

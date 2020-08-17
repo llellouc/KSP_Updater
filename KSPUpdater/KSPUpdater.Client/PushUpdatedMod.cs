@@ -85,9 +85,7 @@ namespace KSPUpdater.Client
                     Trace.WriteLine(modName + " updated");
                 }
                 else
-                {
                     Trace.WriteLine(modName + " is already up to date");
-                }
             }
 
             return listOfUpdatedMod;

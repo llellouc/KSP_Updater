@@ -19,6 +19,7 @@ namespace KSPUpdater.Drivers.Curseforge
         /// <summary>
         /// Convert the URL from the .version file to the URL of the ZIP file
         /// </summary>
+        /// <exception cref="ArgumentException">To document</exception>
         private string GetDownloadPageURL()
         {
             if (UrlBase == null)
@@ -31,7 +32,8 @@ namespace KSPUpdater.Drivers.Curseforge
             else if (Regex.IsMatch(UrlBase, "^http(s?)://(www\\.)?curseforge.com/[^/]+/[^/]+/[^/]+$"))
                 return UrlBase + "/download";
             // Like : http:// kerbal.curseforge.com/projects/easy-vessel-switch-evs
-            else if (Regex.IsMatch(UrlBase, "^http(s?)://kerbal.curseforge.com/projects/[^/]+(/)?$"))
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://kerbal.curseforge.com/projects/[^/]+(/)?$")
+            || Regex.IsMatch(UrlBase, "^http(s?)://kerbal.curseforge.com/projects/[^/]+/files(/)?$"))
             {
                 var doc = _wb.LoadAndGetContentOf(UrlBase);
 

@@ -24,7 +24,10 @@ namespace KSPUpdater.Drivers.KSPForum
 
         #endregion
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="NotImplementedException">To document</exception>
         protected override void GetZipURL()
         {
             var homePage = Utils.DownloadHtmlDocument(UrlBase);

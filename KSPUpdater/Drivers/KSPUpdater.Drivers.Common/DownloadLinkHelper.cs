@@ -35,6 +35,8 @@ namespace KSPUpdater.Drivers.Common
             return toRet;
         }
 
+        /// <exception cref="NotImplementedException">When the given url doesn't have any driver</exception>
+        /// <exception cref="ArgumentException">When can't parse the url to obtain the download link</exception>
         public static IDownloadLink GetHostType(string urlBase, MyWebView wb)
         {
             foreach (var driver in _drivers.Value)
@@ -43,8 +45,7 @@ namespace KSPUpdater.Drivers.Common
                 {
                     IDownloadLink obj = (IDownloadLink)Activator.CreateInstance(driver.Value);
                     obj.Initialize(urlBase, wb);
-                    if (obj != null)
-                        return (IDownloadLink) obj;
+                    return obj;
                 }
             }
             throw new NotImplementedException("The link " + urlBase + "comes from an unknown host");

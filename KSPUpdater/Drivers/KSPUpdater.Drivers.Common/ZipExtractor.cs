@@ -34,13 +34,13 @@ namespace KSPUpdater.Drivers.Common
             }
             catch (DirectoryNotFoundException)
             {
-
+                // Temporary directory already deleted
             }
         }
 
         #endregion
 
-
+        /// <exception cref="ArgumentNullException">To document</exception>
         private void Download()
         {
             if (this.ZipUrl == null)

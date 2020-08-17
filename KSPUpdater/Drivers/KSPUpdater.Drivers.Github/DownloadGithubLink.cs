@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
@@ -44,6 +45,8 @@ namespace KSPUpdater.Drivers.Github
                 throw new ArgumentException("Impossible to parse Github URL", nameof(UrlBase));
         }
 
+        /// <exception cref="ArgumentException">To document</exception>
+        /// <exception cref="InvalidDataException">To document</exception>
         private string GetZipLink(HtmlDocument doc)
         {
             var href = doc.DocumentNode.DescendantsAndSelf("a").SingleOrDefault(x =>
@@ -51,8 +54,11 @@ namespace KSPUpdater.Drivers.Github
 
             if(!string.IsNullOrEmpty(href))
                 return "https://github.com" + href;
+           
+            else if (doc.DocumentNode.InnerText.Contains("There aren’t any releases here"))
+                throw new InvalidDataException("No release on this Github : " + this.GetLastRealeaseURL()); //Can be improved
             //else
-            return null;
+            throw new ArgumentException("Unable to Get ZipLink from Github : " + this.GetLastRealeaseURL());
 
         }
         #endregion

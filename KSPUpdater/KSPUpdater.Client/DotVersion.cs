@@ -7,11 +7,15 @@ namespace KSPUpdater.Client
 {
     public class DotVersion : IComparable
     {
+        #region Properties
         public string Path { get; private set; }
         public string DownloadLink { get; private set; }
         public Version Version { get; private set; }
         public JObject Json { get; private set; }
 
+        #endregion
+
+        /// <exception cref="ArgumentException">To document</exception>
         private string GetPath(string path)
         {
             if (path.EndsWith(".version"))
@@ -24,27 +28,28 @@ namespace KSPUpdater.Client
             return toRet;
         }
 
+        /// <exception cref="ArgumentException">When can't find any .version</exception>
         public DotVersion(string path)
         {
             this.Path = GetPath(path);
-            this.Version = null;
-            Json = null;
 
             this.Json = JObject.Parse(File.ReadAllText(Path));
 
-            var test = Json["VERSION"];
             if (Json["VERSION"].SelectToken("MAJOR") != null)
             {
-                Int32.TryParse((string)Json["VERSION"]["MAJOR"], out int major);
-                Int32.TryParse((string)Json["VERSION"]["MINOR"], out int minor);
-                Int32.TryParse((string)Json["VERSION"]["PATCH"], out int patch);
-                Int32.TryParse((string)Json["VERSION"]["BUILD"], out int build);
+                Int32.TryParse((string) Json["VERSION"]["MAJOR"], out int major);
+                Int32.TryParse((string) Json["VERSION"]["MINOR"], out int minor);
+                Int32.TryParse((string) Json["VERSION"]["PATCH"], out int patch);
+                Int32.TryParse((string) Json["VERSION"]["BUILD"], out int build);
                 this.Version = new Version(major, minor, patch, build);
             }
             else
-                this.Version = System.Version.Parse(Json["VERSION"].Value<string>());
-            this.DownloadLink = (string)Json["DOWNLOAD"];
+                this.Version = Version.Parse(Json["VERSION"].Value<string>());
+
+            this.DownloadLink = (string) Json["DOWNLOAD"];
         }
+
+        #region IComparable
 
         public static bool operator <(DotVersion a, DotVersion b)
         {
@@ -64,5 +69,7 @@ namespace KSPUpdater.Client
             }
             throw new ArgumentException("Can't compare DotVersion with type " + obj.GetType());
         }
+
+        #endregion
     }
 }
