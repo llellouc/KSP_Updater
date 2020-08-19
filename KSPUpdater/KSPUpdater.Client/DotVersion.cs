@@ -8,6 +8,7 @@ namespace KSPUpdater.Client
     public class DotVersion : IComparable
     {
         #region Properties
+        public string ModName { get; private set; }
         public string Path { get; private set; }
         public string DownloadLink { get; private set; }
         public Version Version { get; private set; }
@@ -47,6 +48,7 @@ namespace KSPUpdater.Client
                 this.Version = Version.Parse(Json["VERSION"].Value<string>());
 
             this.DownloadLink = (string) Json["DOWNLOAD"];
+            this.ModName = (string) Json["NAME"];
         }
 
         #region IComparable
@@ -63,6 +65,7 @@ namespace KSPUpdater.Client
 
         public int CompareTo(object obj)
         {
+            //TODO : Maybe change it. Because it allows to compare version but 2 totally different mods with the same Version are interpreted as the same object
             if (obj is DotVersion other)
             {
                 return this.Version.CompareTo(other.Version);

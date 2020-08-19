@@ -10,7 +10,7 @@ namespace KSPUpdater.Drivers.Common
 {
     public class DownloadLinkHelper
     {
-        private static Lazy<Dictionary<string, Type>> _drivers = new Lazy<Dictionary<string, Type>>(LoadTypes);
+        public static readonly Lazy<Dictionary<string, Type>> Drivers = new Lazy<Dictionary<string, Type>>(LoadTypes);
 
         //TODO : Add some try/catch
         private static Dictionary<string, Type> LoadTypes()
@@ -20,6 +20,8 @@ namespace KSPUpdater.Drivers.Common
             var files = Directory.GetFiles(".", "KSPUpdater.Drivers.*.dll");
             foreach (var file in files)
             {
+                // Assembly.LoadFrom prevent to load the same assembly twice
+                // Assembly.LoadFile prevent confusion between two different assemblies with the same name (so reload everytime)
                 var assembly = Assembly.LoadFrom(file);
                 var types = assembly.GetExportedTypes().Where(t => t.BaseType == typeof(IDownloadLink)).ToList();
 
@@ -37,14 +39,14 @@ namespace KSPUpdater.Drivers.Common
 
         /// <exception cref="NotImplementedException">When the given url doesn't have any driver</exception>
         /// <exception cref="ArgumentException">When can't parse the url to obtain the download link</exception>
-        public static IDownloadLink GetHostType(string urlBase, MyWebView wb)
+        public static IDownloadLink GetHostType(string urlBase, string modName, MyWebView wb)
         {
-            foreach (var driver in _drivers.Value)
+            foreach (var driver in Drivers.Value)
             {
                 if (urlBase.Contains(driver.Key))
                 {
                     IDownloadLink obj = (IDownloadLink)Activator.CreateInstance(driver.Value);
-                    obj.Initialize(urlBase, wb);
+                    obj.Initialize(urlBase, modName,wb);
                     return obj;
                 }
             }

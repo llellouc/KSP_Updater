@@ -42,7 +42,7 @@ namespace KSPUpdater.Client
 
         private void GetModsNames()
         {
-            var regex = new Regex("[\\w]+$");
+            var regex = new Regex("[^/\\\\]+$");
             foreach (var dir in Directory.GetDirectories(this.UnzippedModGameDataPath))
             {
                 ModsNames.Add( regex.Match(dir).Value);
@@ -71,12 +71,21 @@ namespace KSPUpdater.Client
             ParseUnzippedModPath();
             GetModsNames();
 
+            //TODO : Also copy the module manager and other dll at the root of the folder
             foreach (var modName in ModsNames)
             {
                 var gameDataPathMod = GameDataPath + "\\" + modName + Path.DirectorySeparatorChar;
                 var unzippedModGameDataPath = UnzippedModGameDataPath + modName + Path.DirectorySeparatorChar;
 
-                if (IsDowloadedModMoreRecent(gameDataPathMod, unzippedModGameDataPath))
+                if (!Directory.Exists(gameDataPathMod))
+                {
+                    var updater = new UpdateMod(gameDataPathMod, unzippedModGameDataPath);
+                    updater.MoveNewModtoDefinitivePath();
+                    listOfUpdatedMod.Add(modName);
+                    Trace.WriteLine(modName + " added");
+
+                }
+                else if (IsDowloadedModMoreRecent(gameDataPathMod, unzippedModGameDataPath))
                 {
                     var updater = new UpdateMod(gameDataPathMod, unzippedModGameDataPath);
 

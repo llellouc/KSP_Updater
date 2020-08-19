@@ -44,7 +44,7 @@ namespace KSPUpdater.Client
                             continue;
                         }
 
-                        IDownloadLink hostLink = DownloadLinkHelper.GetHostType(dotVersionFile.DownloadLink, param.Webview);
+                        IDownloadLink hostLink = DownloadLinkHelper.GetHostType(dotVersionFile.DownloadLink, dotVersionFile.ModName,param.Webview);
                         var zipExtractor = new ZipExtractor(hostLink.ZipLink);
                         zipExtractor.DownloadAndExtract();
 

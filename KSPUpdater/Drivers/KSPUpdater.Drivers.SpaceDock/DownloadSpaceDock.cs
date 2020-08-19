@@ -1,10 +1,12 @@
 ﻿using System.IO;
 using System.Linq;
 using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common;
 using KSPUpdater.Drivers.Common.Interfaces;
 
 namespace KSPUpdater.Drivers.SpaceDock
 {
+    [DriverDetails("spacedock.info", typeof(RemoveIrrelevantSpaceDockLinks))]
     public class DownloadSpaceDock : IDownloadLink
     {
         public override string UrlPattern => "spacedock.info";

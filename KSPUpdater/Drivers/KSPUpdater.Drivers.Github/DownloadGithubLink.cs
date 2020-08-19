@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common;
 using KSPUpdater.Drivers.Common.Interfaces;
 
 namespace KSPUpdater.Drivers.Github
 {
+    [DriverDetails("github.com", typeof(RemoveIrrelevantGithubLink))]
     public class DownloadGithubLink : IDownloadLink
     {
         public override string UrlPattern => "github.com";
@@ -16,8 +19,8 @@ namespace KSPUpdater.Drivers.Github
 
         protected override void GetZipURL()
         {
-            var lastRealeaseURL = GetLastRealeaseURL();
-            var lastReleaseHTMLDocument = Utils.DownloadHtmlDocument(lastRealeaseURL);
+            var lastReleaseURL = GetLastRealeaseURL();
+            var lastReleaseHTMLDocument = Utils.DownloadHtmlDocument(lastReleaseURL);
             this.ZipLink = GetZipLink(lastReleaseHTMLDocument);
         }
 
@@ -49,8 +52,9 @@ namespace KSPUpdater.Drivers.Github
         /// <exception cref="InvalidDataException">To document</exception>
         private string GetZipLink(HtmlDocument doc)
         {
+            //TODO : Replace pretty all [\\w]+ by a [^/]+ or [^/\\\\]+
             var href = doc.DocumentNode.DescendantsAndSelf("a").SingleOrDefault(x =>
-                Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[\\w]+/[\\w]+/releases/download/[\\S]+\\.zip$"))?.GetAttributeValue("href", "");
+                Regex.IsMatch(x.GetAttributeValue("href", ""), "^/[^/]+/[^/]+/releases/download/.+\\.zip$"))?.GetAttributeValue("href", "");
 
             if(!string.IsNullOrEmpty(href))
                 return "https://github.com" + href;

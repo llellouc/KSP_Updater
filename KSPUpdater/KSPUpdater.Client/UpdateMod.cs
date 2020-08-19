@@ -15,12 +15,12 @@ namespace KSPUpdater.Client
             this.NewModTemporaryPath = newModTemporaryPath;
         }
 
-        private async Task DeleteOld()
+        public async Task DeleteOld()
         {
             await DeleteFolderAsync.DeleteAsync(this.OldModPath, true);
         }
 
-        private void MoveNewModtoDefinitivePath()
+        public void MoveNewModtoDefinitivePath()
         {
             Directory.Move(NewModTemporaryPath, OldModPath);
         }

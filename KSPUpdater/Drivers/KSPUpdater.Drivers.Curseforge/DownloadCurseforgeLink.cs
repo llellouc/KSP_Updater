@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using KSPUpdater.Common;
+using KSPUpdater.Drivers.Common;
 using KSPUpdater.Drivers.Common.Interfaces;
 
 namespace KSPUpdater.Drivers.Curseforge
 {
+    [DriverDetails("curseforge.com", typeof(RemoveIrrelevantCurseforgeLink))]
     public class DownloadCurseforgeLink : IDownloadLink
     {
         public override string UrlPattern => "curseforge.com";
@@ -25,6 +27,8 @@ namespace KSPUpdater.Drivers.Curseforge
             if (UrlBase == null)
                 throw new ArgumentNullException(nameof(UrlBase), "URLBase not set in DownloadCurseforgeLink class");
 
+            //TODO : Add an if when there is a download inside the link
+
             // Like : http:// www.curseforge.com/kerbal/ksp-mods/easy-vessel-switch-evs/
             if (Regex.IsMatch(UrlBase, "^http(s?)://(www\\.)?curseforge.com/[^/]+/[^/]+/[^/]+/$"))
                 return UrlBase + "download";
@@ -32,8 +36,7 @@ namespace KSPUpdater.Drivers.Curseforge
             else if (Regex.IsMatch(UrlBase, "^http(s?)://(www\\.)?curseforge.com/[^/]+/[^/]+/[^/]+$"))
                 return UrlBase + "/download";
             // Like : http:// kerbal.curseforge.com/projects/easy-vessel-switch-evs
-            else if (Regex.IsMatch(UrlBase, "^http(s?)://kerbal.curseforge.com/projects/[^/]+(/)?$")
-            || Regex.IsMatch(UrlBase, "^http(s?)://kerbal.curseforge.com/projects/[^/]+/files(/)?$"))
+            else if (Regex.IsMatch(UrlBase, "^http(s?)://kerbal.curseforge.com/projects/[^/]+(/files)?(/)?$"))
             {
                 var doc = _wb.LoadAndGetContentOf(UrlBase);
 

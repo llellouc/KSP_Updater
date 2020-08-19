@@ -7,6 +7,11 @@ namespace KSPUpdater.Drivers.Common.Interfaces
         protected MyWebView _wb;
 
         /// <summary>
+        /// Mod Name in the .version file
+        /// </summary>
+        public string ModName { get; protected set; }
+
+        /// <summary>
         /// URL in the .version file
         /// </summary>
         public string UrlBase { get; protected set; }
@@ -19,9 +24,10 @@ namespace KSPUpdater.Drivers.Common.Interfaces
 
         protected abstract void GetZipURL();
 
-        public void Initialize(string urlBase, MyWebView wb = null)
+        public void Initialize(string urlBase, string modName, MyWebView wb = null)
         {
             UrlBase = urlBase;
+            ModName = modName;
             _wb = wb;
             ZipLink = null;
 
