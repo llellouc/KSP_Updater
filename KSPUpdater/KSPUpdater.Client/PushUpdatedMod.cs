@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using KSPUpdater.Client.UpdateDisplay;
 
 namespace KSPUpdater.Client
 {
@@ -65,9 +66,9 @@ namespace KSPUpdater.Client
 
 
         /// <returns>The list of updated Mods</returns>
-        public async Task<List<string>> AutomaticPush()
+        public async Task<List<UpdateDetails>> AutomaticPush()
         {
-            var listOfUpdatedMod = new List<string>();
+            var listOfUpdatedMod = new List<UpdateDetails>();
             ParseUnzippedModPath();
             GetModsNames();
 
@@ -81,20 +82,34 @@ namespace KSPUpdater.Client
                 {
                     var updater = new UpdateMod(gameDataPathMod, unzippedModGameDataPath);
                     updater.MoveNewModtoDefinitivePath();
-                    listOfUpdatedMod.Add(modName);
-                    Trace.WriteLine(modName + " added");
-
+                    listOfUpdatedMod.Add(new UpdateDetails()
+                    {
+                            ModName = modName,
+                            Status = UpdateStatus.ModAdded,
+                            Tooltip = modName + " added",
+                    });
                 }
                 else if (IsDowloadedModMoreRecent(gameDataPathMod, unzippedModGameDataPath))
                 {
                     var updater = new UpdateMod(gameDataPathMod, unzippedModGameDataPath);
 
                     await updater.Execute();
-                    listOfUpdatedMod.Add(modName);
-                    Trace.WriteLine(modName + " updated");
+                    listOfUpdatedMod.Add(new UpdateDetails()
+                    {
+                        ModName = modName,
+                        Status = UpdateStatus.SuccessfullyUpdated,
+                        Tooltip = modName + " updated"
+                    });
                 }
                 else
-                    Trace.WriteLine(modName + " is already up to date");
+                {
+                    listOfUpdatedMod.Add(new UpdateDetails()
+                    {
+                        ModName = modName,
+                        Status = UpdateStatus.AlreadyUpdated,
+                        Tooltip = modName + " is already up to date"
+                    });
+                }
             }
 
             return listOfUpdatedMod;

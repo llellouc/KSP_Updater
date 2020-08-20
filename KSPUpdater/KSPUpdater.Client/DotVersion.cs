@@ -25,7 +25,7 @@ namespace KSPUpdater.Client
             var toRet = Directory.GetFiles(path, "*.version", SearchOption.AllDirectories).FirstOrDefault();
 
             if (toRet == null) 
-                throw new ArgumentException("Impossible to find any .version file inside the following directory : " + path, nameof(path));
+                throw new FileNotFoundException("Impossible to find any .version file inside the following directory : " + path);
             return toRet;
         }
 

@@ -32,7 +32,8 @@ namespace KSPUpdater.Client.View
                 var param = new UpdateOrchestraMasterParams()
                 {
                     Webview = new MyWebView(this.ToolkitWebView),
-                    GameDataPath = _vm.GameDataFolderPath
+                    GameDataPath = _vm.GameDataFolderPath,
+                    Logs = _vm.Logs,
                 };
 
                 var th = new Thread(new ParameterizedThreadStart(UpdaterOrchestraMaster.LaunchUpdate));
