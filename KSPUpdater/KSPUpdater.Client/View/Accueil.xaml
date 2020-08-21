@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KSPUpdater"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
+        xmlns:converter="clr-namespace:KSPUpdater.Client.UpdateDisplay"
         mc:Ignorable="d"
         Title="Accueil" Height="900" Width="1200">
+    <Window.Resources>
+        <converter:UpdateStatusToVisibilityConverter x:Key="UpdateStatus2v"/>
+    </Window.Resources>
     <Grid Margin="20,20,20,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,13 +24,56 @@
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <!-- To do a conditional display : https://stackoverflow.com/questions/55173242/wpf-conditional-binding-in-itemscontrol -->
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- TODO : Bind directly to UpdateStatus.XXX instead of passing a string in ConverterParameter -->
+            <!-- Mod added -->
+            <Label Grid.Column="0" Grid.Row="0" Content="Mod added :"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding Logs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding Tooltip}" ToolTip="{Binding Tooltip}"/>
+                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=ModAdded}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Mod successfully updated -->
+            <Label Grid.Column="1" Grid.Row="0" Content="Mod successfully updated :"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Column="1" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Logs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=SuccessfullyUpdated}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <!-- Mod already up to date -->
+            <Label Grid.Column="2" Grid.Row="0" Content="Mod already up to date:"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Column="2" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Logs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=AlreadyUpdated}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <!-- Failed to update -->
+            <Label Grid.Column="3" Grid.Row="0" Content="Mod failed to update :"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Column="3" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Logs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=FailedToUpdate}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
