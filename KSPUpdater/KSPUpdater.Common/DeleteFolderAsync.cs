@@ -58,7 +58,7 @@ namespace KSPUpdater.Common
         public static async Task DeleteAsync(string path, bool recursive)
         {
             var watcher = new DeleteFolderAsync(path);
-            Directory.Delete(path, recursive);
+            DeleteAndPreventAlreadyInUse.DeleteDirectory(path, recursive);
             await watcher.Sem.WaitAsync();
             watcher.Dispose();
         }

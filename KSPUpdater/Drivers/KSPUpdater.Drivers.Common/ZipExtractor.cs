@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using KSPUpdater.Common;
 
 namespace KSPUpdater.Drivers.Common
 {
@@ -30,7 +31,7 @@ namespace KSPUpdater.Drivers.Common
         {
             try
             {
-                Directory.Delete(this.UnzippedDirectory, true);
+                DeleteAndPreventAlreadyInUse.DeleteDirectory(this.UnzippedDirectory, true);
             }
             catch (DirectoryNotFoundException)
             {
@@ -67,7 +68,7 @@ namespace KSPUpdater.Drivers.Common
         {
             Download();
             Extract();
-            File.Delete(this.ZipFile);
+            DeleteAndPreventAlreadyInUse.DeleteFile(this.ZipFile);
         }
     }
 }
