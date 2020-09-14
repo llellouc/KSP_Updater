@@ -30,7 +30,7 @@ namespace KSPUpdater.Common
                     throw;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                DeleteDirectory(path, recursive,true);
+                DeleteAndPreventAlreadyInUse.DeleteDirectory(path, recursive,true);
             }
         }
 
@@ -47,7 +47,7 @@ namespace KSPUpdater.Common
                     throw;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                DeleteFile(path, true);
+                DeleteAndPreventAlreadyInUse.DeleteFile(path, true);
             }
         }
     }

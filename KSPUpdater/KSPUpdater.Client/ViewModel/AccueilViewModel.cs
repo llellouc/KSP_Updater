@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using KSPUpdater.Annotations;
 using KSPUpdater.Client.UpdateDisplay;
+using KSPUpdater.Common;
 
 namespace KSPUpdater.Client.ViewModel
 {
@@ -11,10 +12,7 @@ namespace KSPUpdater.Client.ViewModel
     {
         private bool _isUpdateInProgress;
         private string _gameDataFolderPath;
-        //private ObservableCollection<UpdateDetails> _successfullyUpdated;
-        //private ObservableCollection<UpdateDetails> _alreadyUpdated;
-        //private ObservableCollection<UpdateDetails> _failedToUpdate;
-        private ObservableCollection<UpdateDetails> _logs;
+        private ObservableDictionary<string, UpdateDetails> _logs;
 
         public string GameDataFolderPath
         {
@@ -42,62 +40,7 @@ namespace KSPUpdater.Client.ViewModel
             get => !IsUpdateInProgress && !string.IsNullOrEmpty(GameDataFolderPath);
         }
 
-        //public ObservableCollection<UpdateDetails> SuccessfullyUpdated
-        //{
-        //    get => _successfullyUpdated;
-        //    set
-        //    {
-        //        if (_successfullyUpdated != value)
-        //        {
-        //            if (_successfullyUpdated != null)
-        //                _successfullyUpdated.CollectionChanged -= OnUpdateStatusCollectionChanged;
-        //            _successfullyUpdated = value;
-        //            _successfullyUpdated.CollectionChanged += OnUpdateStatusCollectionChanged;
-        //            this.OnPropertyChanged(nameof(SuccessfullyUpdated));
-        //        }
-        //    }
-        //}
-
-        //public ObservableCollection<UpdateDetails> AlreadyUpdated
-        //{
-        //    get => _alreadyUpdated;
-        //    set
-        //    {
-        //        if (_alreadyUpdated != value)
-        //        {
-        //            if (_alreadyUpdated != null)
-        //                _alreadyUpdated.CollectionChanged -= OnUpdateStatusCollectionChanged;
-        //            _alreadyUpdated = value;
-        //            _alreadyUpdated.CollectionChanged += OnUpdateStatusCollectionChanged;
-        //            this.OnPropertyChanged(nameof(AlreadyUpdated));
-        //        }
-        //    }
-        //}
-
-        //public ObservableCollection<UpdateDetails> FailedToUpdate
-        //{
-        //    get => _failedToUpdate;
-        //    set
-        //    {
-        //        if (_failedToUpdate != value)
-        //        {
-        //            if (_failedToUpdate != null)
-        //                _failedToUpdate.CollectionChanged -= OnUpdateStatusCollectionChanged;
-        //            _failedToUpdate = value;
-        //            _failedToUpdate.CollectionChanged += OnUpdateStatusCollectionChanged;
-        //            this.OnPropertyChanged(nameof(FailedToUpdate));
-        //        }
-        //    }
-        //}
-
-        //private void OnUpdateStatusCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    this.OnPropertyChanged(nameof(SuccessfullyUpdated));
-        //    this.OnPropertyChanged(nameof(AlreadyUpdated));
-        //    this.OnPropertyChanged(nameof(FailedToUpdate));
-        //}
-
-        public ObservableCollection<UpdateDetails> Logs
+        public ObservableDictionary<string, UpdateDetails> Logs
         {
             get => _logs;
             set
@@ -121,7 +64,7 @@ namespace KSPUpdater.Client.ViewModel
         public AccueilViewModel()
         {
             IsUpdateInProgress = false;
-            Logs = new ObservableCollection<UpdateDetails>();
+            Logs = new ObservableDictionary<string, UpdateDetails>();
         }
 
         #region INotifyPropertyChanged

@@ -78,7 +78,16 @@ namespace KSPUpdater.Client
                         {
                             foreach (UpdateDetails log in toLog)
                             {
-                                param.Logs.Add(log);
+                                if (param.Logs.ContainsKey(log.ModName))
+                                {
+                                    // ModAdded < SuccessfullyUpdated < AlreadyUpdated < FailedToUpdate
+                                    // So if my log is inferior has the saved one, it should be updated. Else, it shouldn't
+                                    if (log.Status < param.Logs[log.ModName].Status)
+                                        param.Logs[log.ModName] = log;
+                                }
+                                else
+                                    param.Logs.Add(log.ModName, log);
+
                                 Trace.WriteLine(log.Tooltip);
                             }
                         });
@@ -92,6 +101,6 @@ namespace KSPUpdater.Client
     {
         public MyWebView Webview { get; set; }
         public string GameDataPath { get; set; }
-        public ObservableCollection<UpdateDetails> Logs { get; set; }
+        public ObservableDictionary<string, UpdateDetails> Logs { get; set; }
     }
 }

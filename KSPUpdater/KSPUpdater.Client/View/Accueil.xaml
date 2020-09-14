@@ -39,7 +39,7 @@
                 <ItemsControl ItemsSource="{Binding Logs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=ModAdded}"/>
+                            <Label Content="{Binding Value.ModName}" ToolTip="{Binding Value.Tooltip}" Visibility="{Binding Value.Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=ModAdded}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -51,7 +51,7 @@
                 <ItemsControl ItemsSource="{Binding Logs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=SuccessfullyUpdated}"/>
+                            <Label Content="{Binding Value.ModName}" ToolTip="{Binding Value.Tooltip}" Visibility="{Binding Value.Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=SuccessfullyUpdated}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -62,7 +62,7 @@
                 <ItemsControl ItemsSource="{Binding Logs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=AlreadyUpdated}"/>
+                            <Label Content="{Binding Value.ModName}" ToolTip="{Binding Value.Tooltip}" Visibility="{Binding Value.Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=AlreadyUpdated}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -73,7 +73,7 @@
                 <ItemsControl ItemsSource="{Binding Logs}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding ModName}" ToolTip="{Binding Tooltip}" Visibility="{Binding Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=FailedToUpdate}"/>
+                            <Label Content="{Binding Value.ModName}" ToolTip="{Binding Value.Tooltip}" Visibility="{Binding Value.Status, Converter={StaticResource UpdateStatus2v}, ConverterParameter=FailedToUpdate}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

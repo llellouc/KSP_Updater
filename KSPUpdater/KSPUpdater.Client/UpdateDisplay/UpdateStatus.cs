@@ -6,9 +6,9 @@ namespace KSPUpdater.Client.UpdateDisplay
 {
     public enum UpdateStatus
     {
-        ModAdded,
-        SuccessfullyUpdated,
-        AlreadyUpdated,
-        FailedToUpdate,
+        ModAdded = 0,
+        SuccessfullyUpdated = 1,
+        AlreadyUpdated = 2,
+        FailedToUpdate = 3,
     }
 }
